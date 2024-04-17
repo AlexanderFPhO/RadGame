@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="JAVA_MODULE" version="4">
+  <component name="NewModuleRootManager" inherit-compiler-output="true">
+    <exclude-output />
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+    </content>
+    <orderEntry type="inheritedJdk" />
+    <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="library" exported="" name="lwjgl" level="project" />
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-app-1.86.11-all.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-app-1.86.11.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-binding-1.86.11.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-lwjgl3-1.86.11.jar!/" />
+          <root url="file://$MODULE_DIR$/imgui-1.86.11" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-app-1.86.11-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-binding-1.86.11-javadoc.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-lwjgl3-1.86.11-javadoc.jar!/" />
+        </JAVADOC>
+        <NATIVE>
+          <root url="file://$MODULE_DIR$/imgui-1.86.11" />
+          <root url="file://$MODULE_DIR$/imgui-1.86.11" />
+          <root url="file://$MODULE_DIR$/imgui-1.86.11" />
+        </NATIVE>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-app-1.86.11-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-binding-1.86.11-sources.jar!/" />
+          <root url="jar://$MODULE_DIR$/imgui-1.86.11/imgui-lwjgl3-1.86.11-sources.jar!/" />
+          <root url="file://$MODULE_DIR$/imgui-1.86.11" />
+        </SOURCES>
+        <jarDirectory url="file://$MODULE_DIR$/imgui-1.86.11" recursive="false" />
+        <jarDirectory url="file://$MODULE_DIR$/imgui-1.86.11" recursive="false" type="SOURCES" />
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/dsl-json-2.0.2/dsl-json-2.0.2.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/dsl-json-2.0.2/dsl-json-2.0.2-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/dsl-json-2.0.2/dsl-json-2.0.2-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+  </component>
+</module>

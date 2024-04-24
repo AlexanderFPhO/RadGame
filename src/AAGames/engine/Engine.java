@@ -6,7 +6,7 @@ import src.AAGames.engine.*;
 
 public class Engine {
 
-    public static final int TARGET_UPS = 30;
+    public static final int TARGET_UPS = 30;//TODO: Change to 60 after finished
     private final IGameLogic appLogic;
     private final Window window;
     private Renderer render;

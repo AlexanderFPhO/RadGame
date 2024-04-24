@@ -9,11 +9,11 @@ public class World {
     private Entity cubeEntity;
 
     public void init(Window window, Scene scene, Renderer render) {
-        Model cubeModel = ModelLoader.loadModel("cube-model", "resources/models/player/player.obj", scene.getTextureCache());
+        Model cubeModel = ModelLoader.loadModel("cube-model", "resources/models/cube/cube.obj", scene.getTextureCache());
         scene.addModel(cubeModel);
 
         cubeEntity = new Entity("cube-entity", cubeModel.getId());
-        cubeEntity.setPosition(0, 0, -2);
+        cubeEntity.setPosition(0, 2, -2);
         scene.addEntity(cubeEntity);
     }
     public void update(Window window, Scene scene, long diffTimeMillis) {

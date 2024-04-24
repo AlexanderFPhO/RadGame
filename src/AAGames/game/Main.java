@@ -83,8 +83,12 @@ public class Main implements IGameLogic, IGuiInstance {
 
         if (window.isKeyPressed(GLFW_KEY_E)) {
             deltaCameraPos[1] = 1; c++;
+            player.isFlying = 0;
+
+
         } else if (window.isKeyPressed(GLFW_KEY_Q)) {
-            deltaCameraPos[1] = -1; c++;
+            //deltaCameraPos[1] = -1; c++;
+            player.isFlying = 1;
         }
 
         if (c > 0) {
@@ -95,13 +99,14 @@ public class Main implements IGameLogic, IGuiInstance {
         MouseInput mouseInput = window.getMouseInput();
         Vector2f displVec = mouseInput.getDisplVec();
         if (mouseInput.isRightButtonPressed()) { //TODO: find a way to snap the mouse or camera to the center of the screen
-            player.getPlayerCam().addRotation((float) Math.toRadians(-displVec.x * MOUSE_SENSITIVITY), (float) Math.toRadians(-displVec.y * MOUSE_SENSITIVITY));
+            player.getPlayerCam().rotate((float) Math.toRadians(-displVec.x * MOUSE_SENSITIVITY), (float) Math.toRadians(-displVec.y * MOUSE_SENSITIVITY));
         }
     }
 
     @Override
     public void update(Window window, Scene scene, long diffTimeMillis) {
         gameWorld.update(window, scene, diffTimeMillis);
-
+        player.update(window, scene, diffTimeMillis);
+        //System.out.println("FPS:" + 1000f/diffTimeMillis);
     }
 }

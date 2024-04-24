@@ -15,12 +15,12 @@ public class Camera {
         direction = new Vector3f();
         right = new Vector3f();
         up = new Vector3f();
-        position = new Vector3f();
+        position = new Vector3f(0f, 2f, 0f);
         viewMatrix = new Matrix4f();
         rotation = new Vector2f();
     }
 
-    public void addRotation(float x, float y) {
+    public void rotate(float x, float y) {
         rotation.add(x, y);
         recalculate();
     }

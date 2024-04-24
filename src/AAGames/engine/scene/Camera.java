@@ -33,10 +33,14 @@ public class Camera {
         return viewMatrix;
     }
 
-    public void move(float incX, float incY, float incZ) {
-        viewMatrix.positiveX(right).mul(incX);
-        viewMatrix.positiveY(up).mul(incY);
-        viewMatrix.positiveZ(direction).mul(incZ);
+    public void move(float incX, float incY, float incZ, Matrix3f playerRotationMatrix) {
+        // Transform the increments to the player's local coordinates
+        Vector3f localIncrements = playerRotationMatrix.transform(new Vector3f(incX, incY, incZ));
+
+        // Update the camera's position based on the local increments
+        viewMatrix.positiveX(right).mul(localIncrements.x);
+        viewMatrix.positiveY(up).mul(localIncrements.y);
+        viewMatrix.positiveZ(direction).mul(localIncrements.z);
         position.add(right).add(up).add(direction);
         recalculate();
     }

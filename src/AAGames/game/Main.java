@@ -21,6 +21,7 @@ public class Main implements IGameLogic, IGuiInstance {
         Main main = new Main();
         Engine gameEng = new Engine("RadGame", new Window.WindowOptions(), main);
         gameEng.start();
+
     }
 
     @Override
@@ -53,6 +54,7 @@ public class Main implements IGameLogic, IGuiInstance {
     public void init(Window window, Scene scene, Renderer render) {
         gameWorld = new World();
         gameWorld.init(window, scene, render);
+        glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         player = new Player();//TODO: Add player constructor that accepts coordinates
         player.init(window, scene, render);
@@ -84,11 +86,18 @@ public class Main implements IGameLogic, IGuiInstance {
         if (window.isKeyPressed(GLFW_KEY_E)) {
             deltaCameraPos[1] = 1; c++;
             player.isFlying = 0;
+            player.velocity[1] = 0;
 
 
         } else if (window.isKeyPressed(GLFW_KEY_Q)) {
             //deltaCameraPos[1] = -1; c++;
             player.isFlying = 1;
+        }
+
+        if (window.isKeyPressed(GLFW_KEY_T)) {
+            player.rotate(0,.1f);
+        } else if (window.isKeyPressed(GLFW_KEY_Y)) {
+            player.rotate(0,-.1f);
         }
 
         if (c > 0) {
@@ -98,15 +107,14 @@ public class Main implements IGameLogic, IGuiInstance {
 
         MouseInput mouseInput = window.getMouseInput();
         Vector2f displVec = mouseInput.getDisplVec();
-        if (mouseInput.isRightButtonPressed()) { //TODO: find a way to snap the mouse or camera to the center of the screen
-            player.getPlayerCam().rotate((float) Math.toRadians(-displVec.x * MOUSE_SENSITIVITY), (float) Math.toRadians(-displVec.y * MOUSE_SENSITIVITY));
-        }
+        player.rotate((float) Math.toRadians(displVec.x * MOUSE_SENSITIVITY), (float) Math.toRadians(displVec.y * MOUSE_SENSITIVITY));
     }
 
     @Override
     public void update(Window window, Scene scene, long diffTimeMillis) {
         gameWorld.update(window, scene, diffTimeMillis);
         player.update(window, scene, diffTimeMillis);
+
         //System.out.println("FPS:" + 1000f/diffTimeMillis);
     }
 }

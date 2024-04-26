@@ -10,6 +10,7 @@ public class Renderer {
 
     private SceneRenderer sceneRenderer;
     private GuiRenderer guiRenderer;
+    private SkyBoxRender skyBoxRender;
 
 
     public Renderer(Window window) {
@@ -19,6 +20,7 @@ public class Renderer {
         glEnable(GL_CULL_FACE);
         glCullFace(GL_BACK);
         guiRenderer = new GuiRenderer(window);
+        skyBoxRender = new SkyBoxRender();
 
     }
 
@@ -32,6 +34,7 @@ public class Renderer {
 
         sceneRenderer.render(scene);
         guiRenderer.render(scene);
+        skyBoxRender.render(scene);
     }
     public void resize(int width, int height) {
         guiRenderer.resize(width, height);

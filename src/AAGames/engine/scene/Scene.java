@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Scene {
     private Camera camera;
+    private SkyBox skyBox;
 
     private Map<String, Model> modelMap;
     private Projection projection;
@@ -20,8 +21,6 @@ public class Scene {
         textureCache = new TextureCache();
         projection = new Projection(width, height);
         camera = new Camera();
-
-
     }
 
     public void addEntity(Entity entity) {
@@ -61,6 +60,9 @@ public class Scene {
     public void resize(int width, int height) {
         projection.updateProjMatrix(width, height);
     }
+
+    public SkyBox getSkyBox() {return skyBox;}
+    public void setSkyBox(SkyBox skyBox) {this.skyBox = skyBox;}
 
     public void setGuiInstance(IGuiInstance guiInstance) {
         this.guiInstance = guiInstance;

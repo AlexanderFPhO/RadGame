@@ -2,7 +2,9 @@ package src.AAGames.game;
 
 import imgui.*;
 import imgui.flag.ImGuiCond;
+import org.joml.Matrix3f;
 import org.joml.Vector2f;
+import org.joml.Vector3f;
 import src.AAGames.engine.*;
 import src.AAGames.engine.graph.*;
 import src.AAGames.engine.scene.*;
@@ -54,7 +56,7 @@ public class Main implements IGameLogic, IGuiInstance {
     public void init(Window window, Scene scene, Renderer render) {
         gameWorld = new World();
         gameWorld.init(window, scene, render);
-        glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        //glfwSetInputMode(window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 
         player = new Player();//TODO: Add player constructor that accepts coordinates
         player.init(window, scene, render);
@@ -102,7 +104,14 @@ public class Main implements IGameLogic, IGuiInstance {
 
         if (c > 0) {
             float move = diffTimeMillis * MOVEMENT_SPEED / c;
-            player.move(deltaCameraPos[0] * move, deltaCameraPos[1] * move, deltaCameraPos[2] * move);
+            float[] playerRotation = player.rotation;
+            System.out.print(playerRotation[0]);
+            Matrix3f rotationMatrix = new Matrix3f().rotateXYZ(playerRotation[0], playerRotation[1], playerRotation[2]);
+
+            Vector3f localIncrements = rotationMatrix.transform(new Vector3f(deltaCameraPos[0] * move, deltaCameraPos[1] * move, deltaCameraPos[2] * move));
+            // Transform the increments to the player's local coordinates
+
+            player.move((new Vector3f(deltaCameraPos[0] * move, deltaCameraPos[1] * move, deltaCameraPos[2] * move)), rotationMatrix);
         }
 
         MouseInput mouseInput = window.getMouseInput();
@@ -115,6 +124,6 @@ public class Main implements IGameLogic, IGuiInstance {
         gameWorld.update(window, scene, diffTimeMillis);
         player.update(window, scene, diffTimeMillis);
 
-        //System.out.println("FPS:" + 1000f/diffTimeMillis);
+        System.out.println("FPS:" + 1000f/diffTimeMillis);
     }
 }

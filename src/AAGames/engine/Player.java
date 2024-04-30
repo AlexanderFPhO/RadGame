@@ -36,15 +36,7 @@ public class Player {
         scene.addEntity(playerEntity);
     }
 
-    public void move(float dX, float dY, float dZ) {
-
-
-//Create a rotation matrix from the player's rotation
-        Matrix3f rotationMatrix = new Matrix3f().rotateXYZ(rotation[0], rotation[1], rotation[2]);
-
-        // Transform the increments to the player's local coordinates
-        Vector3f localIncrements = rotationMatrix.transform(new Vector3f(dX, dY, dZ));
-
+    public void move(Vector3f localIncrements, Matrix3f rotationMatrix) {
         // Update the player's position based on the local increments
         position[0] += localIncrements.x;
         position[1] += localIncrements.y;
@@ -67,7 +59,7 @@ public class Player {
         playerEntity.setRotation(0,-1,0, rotation[1]);
         playerEntity.updateModelMatrix();
     }
-    private static final Vector3f GRAVITY = new Vector3f(0, -.01f, 0);
+    private static final Vector3f GRAVITY = new Vector3f(0, -.49f, 0);
 
     public Camera getPlayerCam() {
         return playerCam;
@@ -77,14 +69,11 @@ public class Player {
         // Create a rotation matrix from the player's rotation
         Matrix3f rotationMatrix = new Matrix3f().rotateXYZ(rotation[0], rotation[1], rotation[2]);
 
-        // Transform the gravity vector to the player's local coordinates
-        Vector3f localGravity = rotationMatrix.transform(new Vector3f(GRAVITY));
-
         // Update the player's velocity based on the local gravity
-        //velocity[0] += localGravity.x * diffTimeMillis/1000f * isFlying;
-        velocity[1] += localGravity.y * diffTimeMillis/1000f * isFlying;
-        //velocity[2] += localGravity.z * diffTimeMillis/1000f * isFlying;
 
-        this.move(velocity[0]*diffTimeMillis, velocity[1]*diffTimeMillis, velocity[2]*diffTimeMillis);
+        Vector3f gravity = new Vector3f(0,GRAVITY.y * diffTimeMillis/1000f * isFlying, 0);
+        //velocity[2] += localGravity.z * diffTimeMillis/1000f * isFlying;
+        gravity.mul(diffTimeMillis);
+        this.move(gravity, rotationMatrix);
     }
 }

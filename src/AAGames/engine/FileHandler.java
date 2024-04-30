@@ -2,6 +2,7 @@ package src.AAGames.engine;
 
 import java.io.IOException;
 import java.nio.file.*;
+import com.dslplatform.json.*;
 
 public class FileHandler {
 
@@ -10,7 +11,7 @@ public class FileHandler {
     }
 
     public static void mapReader(String filePath) {
-        readFile(filePath);
+
     }
 
     public static void writeFile(String filePath, String content) {
@@ -20,7 +21,6 @@ public class FileHandler {
             throw new RuntimeException("Error writing file [" + filePath + "]", excp);
         }
     }
-
     public static String readFile(String filePath) {
         String str;
         try {

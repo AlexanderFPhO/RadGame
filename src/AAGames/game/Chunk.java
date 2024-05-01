@@ -5,6 +5,11 @@ import src.AAGames.engine.graph.Renderer;
 import src.AAGames.engine.scene.Scene;
 
 public class Chunk {
+    
+
+    public Chunk(String worldID, int[] id) {
+
+    }
 
     public void init(Window window, Scene scene, Renderer render) {
 

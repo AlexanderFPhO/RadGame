@@ -19,6 +19,7 @@ public class World {
     private Entity woodEntity;
 
     public void init(Window window, Scene scene, Renderer render) {
+        String worldID = "dG93YXJk";
         //TODO: Fix memory hogging (one model is 6mb, 14mb per entity
         Model grassModel = ModelLoader.loadModel("cube-model", "resources/models/cube/cube.obj", scene.getTextureCache());
         scene.addModel(grassModel);
@@ -41,13 +42,21 @@ public class World {
         woodEntity.updateModelMatrix();
         scene.addEntity(woodEntity);
 
-        //FileHandler.mapReader();
+        ArrayList<int[]> chunkIDs = FileHandler.mapReader("./world/" + worldID);
 
+        for (int[] id : chunkIDs) {
+            chunkObj = new Chunk(worldId, id);
+            chunkObj.init();
+            chunks.add(chunkObj);
+        }
 
 
     }
     public void update(Window window, Scene scene, long diffTimeMillis) {
-
+        for (Chunk c : chunks)
+        {
+            c.update(window, scene, diffTimeMillis);
+        }
     }
 
 }

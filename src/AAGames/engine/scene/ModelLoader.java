@@ -87,20 +87,28 @@ public class ModelLoader {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             AIColor4D color = AIColor4D.create();
 
-            int result = aiGetMaterialColor(aiMaterial, AI_MATKEY_COLOR_DIFFUSE, aiTextureType_NONE, 0,
-                    color);
+            int result = aiGetMaterialColor(aiMaterial, AI_MATKEY_COLOR_DIFFUSE, aiTextureType_NONE, 0, color);
             if (result == aiReturn_SUCCESS) {
                 material.setDiffuseColor(new Vector4f(color.r(), color.g(), color.b(), color.a()));
             }
 
             AIString aiTexturePath = AIString.calloc(stack);
-            aiGetMaterialTexture(aiMaterial, aiTextureType_DIFFUSE, 0, aiTexturePath, (IntBuffer) null,
-                    null, null, null, null, null);
+            aiGetMaterialTexture(aiMaterial, aiTextureType_DIFFUSE, 0, aiTexturePath, (IntBuffer) null, null, null, null, null, null);
             String texturePath = aiTexturePath.dataString();
             if (texturePath != null && texturePath.length() > 0) {
                 material.setTexturePath(modelDir + File.separator + new File(texturePath).getName());
                 textureCache.createTexture(material.getTexturePath());
                 material.setDiffuseColor(Material.DEFAULT_COLOR);
+            } else {
+                // Handling embedded textures
+                PointerBuffer pp = stack.mallocPointer(1);
+                if (aiGetMaterialTextureCount(aiMaterial, aiTextureType_DIFFUSE) > 0 && aiGetMaterialTexture(aiMaterial, aiTextureType_DIFFUSE, 0, aiTexturePath, null, null, null, null, null, pp) == aiReturn_SUCCESS) {
+                    int textureIndex = pp.get(0).intValue();
+                    AITexture embeddedTexture = AITexture.create(aiScene.mTextures().get(textureIndex));
+                    String textureId = "embedded_" + modelId + "_" + textureIndex;
+                    textureCache.createEmbeddedTexture(textureId, embeddedTexture);
+                    material.setTexturePath(textureId);
+                }
             }
 
             return material;

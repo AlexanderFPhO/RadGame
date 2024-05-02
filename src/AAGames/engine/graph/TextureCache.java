@@ -1,6 +1,8 @@
 package src.AAGames.engine.graph;
 
-import java.util.*;
+import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TextureCache {
 
@@ -21,14 +23,12 @@ public class TextureCache {
         return textureMap.computeIfAbsent(texturePath, Texture::new);
     }
 
+    public Texture createEmbeddedTexture(String textureId, ByteBuffer textureData, int width, int height) {
+        return textureMap.computeIfAbsent(textureId, key -> new Texture(textureData, width, height));
+    }
+
     public Texture getTexture(String texturePath) {
-        Texture texture = null;
-        if (texturePath != null) {
-            texture = textureMap.get(texturePath);
-        }
-        if (texture == null) {
-            texture = textureMap.get(DEFAULT_TEXTURE);
-        }
+        Texture texture = textureMap.getOrDefault(texturePath, textureMap.get(DEFAULT_TEXTURE));
         return texture;
     }
 }

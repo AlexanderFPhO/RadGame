@@ -15,8 +15,10 @@ public class Chunk {
 
     }
 
-    public void update(Window window, Scene scene, Renderer render) {
+    public void update(Window window, Scene scene, long diffTimeMillis) {
 
     }
 
+    public void init() {
+    }
 }

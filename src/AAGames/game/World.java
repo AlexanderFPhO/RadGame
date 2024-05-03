@@ -9,6 +9,8 @@ import src.AAGames.engine.FileHandler;
 import java.io.File;
 import java.util.ArrayList;
 
+import static src.AAGames.engine.FileHandler.*;
+
 public class World {
     private float rotation;
 
@@ -42,21 +44,21 @@ public class World {
         woodEntity.updateModelMatrix();
         scene.addEntity(woodEntity);
 
-        ArrayList<int[]> chunkIDs = FileHandler.mapReader("./world/" + worldID);
+        //ArrayList<int[]> chunkIDs = FileHandler.worldReader("./world/" + worldID+"/world.json");
 
-        for (int[] id : chunkIDs) {
-            chunkObj = new Chunk(worldId, id);
-            chunkObj.init();
-            chunks.add(chunkObj);
-        }
+        //for (int[] id : chunkIDs) {
+        //    Chunk chunkObj = new Chunk(worldID, id);
+        //    chunkObj.init();
+        //    loaded_chunks.add(chunkObj);
+        //}
 
 
     }
     public void update(Window window, Scene scene, long diffTimeMillis) {
-        for (Chunk c : chunks)
+        /*for (Chunk c : loaded_chunks)
         {
             c.update(window, scene, diffTimeMillis);
-        }
+        }*/
     }
 
 }

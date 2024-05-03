@@ -2,6 +2,9 @@ package src.AAGames.engine;
 
 import java.io.IOException;
 import java.nio.file.*;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.dslplatform.json.*;
 
 public class FileHandler {
@@ -10,15 +13,15 @@ public class FileHandler {
         // Utility class
     }
 
-    public static void worldReader(String filePath) {
+    public static ArrayList<int[]> worldReader(String filePath) {
         String json = readFile(filePath);
         DslJson<Object> dslJson = new DslJson<>();
-        JsonReader<Object> reader = dslJson.newReader(new ByteArrayInputStream(json.getBytes()));
+        JsonReader<Object> reader = dslJson.newReader(json.getBytes());
 
         try {
             reader.read();
             String worldName = "";
-            List<String> chunkIDs = new ArrayList<int[]>();
+            ArrayList<int[]> chunkIDs = new ArrayList<int[]>();
 
             reader.fillName();
             if (reader.wasLastName("world_name")) {
@@ -29,12 +32,13 @@ public class FileHandler {
             reader.fillName();
             if (reader.wasLastName("chunks")) {
                 reader.startArray(); // Start reading the array
-                while (reader.hasNext()) {
+                reader.startArray(); // Start reading the array
+                while (reader.last() != ']') {
                     reader.getNextToken(); // Prepare to read next array element
                     String chunk = reader.readString();
                     String[] parts = chunk.split(",");
                     int[] coordinates = new int[]{Integer.parseInt(parts[0]), Integer.parseInt(parts[1])};
-                    chunksIDs.add(coordinates);
+                    chunkIDs.add(coordinates);
                 }
                 reader.endArray(); // Ensure closing the array parsing
             }
@@ -44,6 +48,7 @@ public class FileHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        return null;
     }
 
     public static void writeFile(String filePath, String content) {
@@ -62,4 +67,5 @@ public class FileHandler {
         }
         return str;
     }
+
 }

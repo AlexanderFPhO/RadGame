@@ -31,6 +31,8 @@ public class SceneRenderer {
         uniformsMap.createUniform("txtSampler");
         uniformsMap.createUniform("viewMatrix");
         uniformsMap.createUniform("material.diffuse");
+        uniformsMap.createUniform("selected");
+
 
     }
 
@@ -43,6 +45,8 @@ public class SceneRenderer {
 
         uniformsMap.setUniform("projectionMatrix", scene.getProjection().getProjMatrix());
         uniformsMap.setUniform("viewMatrix", scene.getCamera().getViewMatrix());
+
+        Entity selectedEntity = scene.getSelectedEntity();
 
         Collection<Model> models = scene.getModelMap().values();
         TextureCache textureCache = scene.getTextureCache();
@@ -58,6 +62,8 @@ public class SceneRenderer {
                 for (Mesh mesh : material.getMeshList()) {
                     glBindVertexArray(mesh.getVaoId());
                     for (Entity entity : entities) {
+                        uniformsMap.setUniform("selected",
+                                selectedEntity != null && selectedEntity.getId().equals(entity.getId()) ? 1 : 0);
                         uniformsMap.setUniform("modelMatrix", entity.getModelMatrix());
                         glDrawElements(GL_TRIANGLES, mesh.getNumVertices(), GL_UNSIGNED_INT, 0);
                     }

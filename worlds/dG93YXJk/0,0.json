@@ -1,9 +1,9 @@
 {
-  "player_name": "",
-  "chunks": [
-    "0,0",
-    "-1,0",
-    "0,-1",
-    "-1,-1"
-  ]
+  "blocks": [
+    {
+      "blockType": "wood2",
+      "position": [2,4,-2]
+    }
+  ],
+  "mobs": []
 }

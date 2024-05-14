@@ -1,5 +1,6 @@
 package src.AAGames.engine.scene;
 
+import org.joml.Vector3f;
 import org.joml.Vector4f;
 import org.lwjgl.PointerBuffer;
 import org.lwjgl.assimp.*;
@@ -21,7 +22,7 @@ public class ModelLoader {
 
     public static Model loadModel(String modelId, String modelPath, TextureCache textureCache) {
         return loadModel(modelId, modelPath, textureCache, aiProcess_GenSmoothNormals | aiProcess_JoinIdenticalVertices |
-                aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights |
+                aiProcess_Triangulate | aiProcess_FixInfacingNormals | aiProcess_CalcTangentSpace | aiProcess_LimitBoneWeights | aiProcess_GenBoundingBoxes |
                 aiProcess_PreTransformVertices);
 
     }
@@ -112,13 +113,17 @@ public class ModelLoader {
         float[] textCoords = processTextCoords(aiMesh);
         int[] indices = processIndices(aiMesh);
 
+        AIAABB aabb = aiMesh.mAABB();
+        Vector3f aabbMin = new Vector3f(aabb.mMin().x(), aabb.mMin().y(), aabb.mMin().z());
+        Vector3f aabbMax = new Vector3f(aabb.mMax().x(), aabb.mMax().y(), aabb.mMax().z());
+
         // Texture coordinates may not have been populated. We need at least the empty slots
         if (textCoords.length == 0) {
             int numElements = (vertices.length / 3) * 2;
             textCoords = new float[numElements];
         }
 
-        return new Mesh(vertices, textCoords, indices);
+        return new Mesh(vertices, textCoords, indices, aabbMin, aabbMax);
     }
 
     private static float[] processTextCoords(AIMesh aiMesh) {

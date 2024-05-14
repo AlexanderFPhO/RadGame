@@ -8,6 +8,7 @@ import java.util.*;
 
 public class Scene {
     private Camera camera;
+    private Entity selectedEntity;
 
     private Map<String, Model> modelMap;
     private Projection projection;
@@ -52,6 +53,10 @@ public class Scene {
         return projection;
     }
 
+    public Entity getSelectedEntity() {
+        return selectedEntity;
+    }
+
     public Camera getCamera() {
         return camera;
     }
@@ -64,5 +69,9 @@ public class Scene {
 
     public void setGuiInstance(IGuiInstance guiInstance) {
         this.guiInstance = guiInstance;
+    }
+
+    public void setSelectedEntity(Entity selectedEntity) {
+        this.selectedEntity = selectedEntity;
     }
 }

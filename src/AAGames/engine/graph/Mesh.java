@@ -1,5 +1,6 @@
 package src.AAGames.engine.graph;
 
+import org.joml.Vector3f;
 import org.lwjgl.opengl.GL30;
 import org.lwjgl.system.MemoryStack;
 
@@ -14,11 +15,15 @@ public class Mesh {
     private int numVertices;
     private int vaoId;
     private List<Integer> vboIdList;
+    private Vector3f aabbMax;
+    private Vector3f aabbMin;
 
-    public Mesh(float[] positions, float[] textCoords, int[] indices) {
+    public Mesh(float[] positions, float[] textCoords, int[] indices, Vector3f aabbMin, Vector3f aabbMax) {
         try (MemoryStack stack = MemoryStack.stackPush()) {
             numVertices = indices.length;
             vboIdList = new ArrayList<>();
+            this.aabbMin = aabbMin;
+            this.aabbMax = aabbMax;
 
             vaoId = glGenVertexArrays();
             glBindVertexArray(vaoId);
@@ -65,6 +70,13 @@ public class Mesh {
         return numVertices;
     }
 
+    public Vector3f getAabbMax() {
+        return aabbMax;
+    }
+
+    public Vector3f getAabbMin() {
+        return aabbMin;
+    }
     public final int getVaoId() {
         return vaoId;
     }

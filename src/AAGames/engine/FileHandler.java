@@ -3,7 +3,6 @@ package src.AAGames.engine;
 import java.io.IOException;
 import java.nio.file.*;
 import java.util.ArrayList;
-import java.util.List;
 
 import com.dslplatform.json.*;
 
@@ -51,6 +50,58 @@ public class FileHandler {
         return null;
     }
 
+    /*public static ArrayList<SerializedMob> chunkMobReader(String filePath) {
+        String json = readFile(filePath);
+        DslJson<Object> dslJson = new DslJson<>();
+        JsonReader<Object> reader = dslJson.newReader(json.getBytes());
+
+
+        return null;
+    }*/
+
+    public static ArrayList<SerializedBlock> chunkBlockReader(String filePath) {
+        String json = readFile(filePath);
+        DslJson<Object> dslJson = new DslJson<>();
+        JsonReader<Object> reader = dslJson.newReader(json.getBytes());
+
+        ArrayList<SerializedBlock> blocks = new ArrayList<>();
+
+        try {
+            reader.read();
+            reader.getNextToken(); // Move to the next token, which should be the beginning of the array or next property
+            reader.fillName();
+            if (reader.wasLastName("blocks")) {
+                reader.startArray(); // Start reading the array
+                while (reader.last() != ']') {
+                    reader.getNextToken(); // Prepare to read next array element
+                    reader.startObject(); // Start reading the object
+                    String blockType = "";
+                    int[] position = new int[3];
+                    while (reader.last() != '}') {
+                        reader.fillName();
+                        if (reader.wasLastName("position")) {
+                            reader.startArray(); // Start reading the array
+                            for (int i = 0; i < 3; i++) {
+                                reader.getNextToken(); // Prepare to read next array element
+                                position[i] = (reader.scanNumber());
+                            }
+                            reader.endArray(); // Ensure closing the array parsing
+                        }
+                        reader.getNextToken(); // Move to the next token, which should be the end of the object or next property
+                    }
+                    reader.endObject(); // Ensure closing the object parsing
+                    blocks.add(new SerializedBlock(blockType, position));
+                }
+                reader.endArray(); // Ensure closing the array parsing
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return blocks;
+    }
+
+
     public static void writeFile(String filePath, String content) {
         try {
             Files.write(Paths.get(filePath), content.getBytes());
@@ -69,3 +120,4 @@ public class FileHandler {
     }
 
 }
+

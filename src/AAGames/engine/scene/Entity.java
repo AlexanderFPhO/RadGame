@@ -1,6 +1,7 @@
 package src.AAGames.engine.scene;
 
 import org.joml.*;
+import src.AAGames.engine.Mob;
 
 import java.lang.Math;
 import java.util.Comparator;
@@ -14,6 +15,7 @@ public class Entity {
     private Vector3f position;
     private Quaternionf rotation;
     private float scale;
+    private Mob mob;
 
 
     public Entity(String id, String modelId) {
@@ -23,6 +25,7 @@ public class Entity {
         position = new Vector3f();
         rotation = new Quaternionf();
         scale = 1;
+        mob = null;
     }
 
     public String getId() {
@@ -65,6 +68,14 @@ public class Entity {
 
     public void updateModelMatrix() {
         modelMatrix.translationRotateScale(position, rotation, scale);
+    }
+
+    public Mob getMob() {
+        return this.mob;
+    }
+
+    public void setMob(Mob mob) {
+        this.mob = mob;
     }
 
 }

@@ -22,35 +22,37 @@ public class World {
 
     public void init(Window window, Scene scene, Renderer render) {
         String worldID = "dG93YXJk";
-        //TODO: Fix memory hogging (one model is 6mb, 14mb per entity
+
+        //ArrayList<int[]> chunkIDs = FileHandler.worldReader("C:\\Users\\LOFER\\IdeaProjects\\RadGame\\worlds\\dG93YXJk\\world.json");//"./world/" + worldID+"/world.json");
+
+
+        /*for (int[] id : chunkIDs) {
+            Chunk chunkObj = new Chunk(worldID, id);
+            chunkObj.init(scene);
+            loaded_chunks.add(chunkObj);
+        }*/
+
         Model grassModel = ModelLoader.loadModel("cube-model", "resources/models/cube/cube.obj", scene.getTextureCache());
         scene.addModel(grassModel);
-        cubeEntity = new Entity("cube-entity", grassModel.getId());
-        cubeEntity.setPosition(1, 2, -2);
-        cubeEntity.updateModelMatrix();
-        scene.addEntity(cubeEntity);
+        for (int i = -16; i < 16; i++) {
+            for (int j = -16; j < 16; j++) {
+                cubeEntity = new Entity("cube-entity"+i+","+j, grassModel.getId());
+                cubeEntity.setPosition(i, 2, -2+j);
+                cubeEntity.setRotation(0,1,0, (float)(((int)(3*Math.random())) * Math.PI)/2f);
+                cubeEntity.updateModelMatrix();
+                scene.addEntity(cubeEntity);
+            }
+        }
 
-        Model wood2Model = ModelLoader.loadModel("wood2-model", "resources/models/wood2/wood2.obj", scene.getTextureCache());
-        scene.addModel(wood2Model);
-        wood2Entity = new Entity("wood2-entity", wood2Model.getId());
-        wood2Entity.setPosition(2, 2, -2);
-        wood2Entity.updateModelMatrix();
-        scene.addEntity(wood2Entity);
 
-        Model woodModel = ModelLoader.loadModel("wood-model", "resources/models/wood/wood.obj", scene.getTextureCache());
+        /*Model woodModel = ModelLoader.loadModel("wood-model", "resources/models/wood/wood.obj", scene.getTextureCache());
         scene.addModel(woodModel);
         woodEntity = new Entity("wood-entity", woodModel.getId());
         woodEntity.setPosition(0, 2, -2);
         woodEntity.updateModelMatrix();
-        scene.addEntity(woodEntity);
+        scene.addEntity(woodEntity);*/
 
-        //ArrayList<int[]> chunkIDs = FileHandler.worldReader("./world/" + worldID+"/world.json");
 
-        //for (int[] id : chunkIDs) {
-        //    Chunk chunkObj = new Chunk(worldID, id);
-        //    chunkObj.init();
-        //    loaded_chunks.add(chunkObj);
-        //}
 
 
     }

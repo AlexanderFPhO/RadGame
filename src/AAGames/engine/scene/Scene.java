@@ -34,6 +34,12 @@ public class Scene {
         model.getEntitiesList().add(entity);
     }
 
+    public void removeEntity(Entity entity) {
+        String modelId = entity.getModelId();
+        Model model = modelMap.get(modelId);
+        model.getEntitiesList().remove(entity);
+    }
+
     public void addModel(Model model) {
         modelMap.put(model.getId(), model);
     }

@@ -28,7 +28,8 @@ public class Mob {
 
     public void update(long diffTimeMillis) {
         dmgTimer += diffTimeMillis;
-        if (dmgTimer > 2.5) {health += .5f; dmgTimer = 0;}
+        if (dmgTimer > 2500 && health < 20f) {health += .5f; dmgTimer = 0;}
+
     }
 
 }

@@ -20,18 +20,21 @@ public class Player {
     public float attackDmg;
     public float health;
 
+    public  float dmgTime;
+
     public Player() {}
 
     public void init(Window window, Scene scene, Renderer renderer) {
         playerCam = scene.getCamera();
-        isFlying = 0;
+        isFlying = 1;
         attackDmg = 1f;
         health = 20.0f;
+        dmgTime = 0f;
 
         Model playerModel = ModelLoader.loadModel("player-model", "resources/models/player/player.obj", scene.getTextureCache());
         scene.addModel(playerModel);
         playerEntity = new Entity("player-entity", playerModel.getId());
-        playerEntity.setPosition(0f, 2f, 0f);
+        playerEntity.setPosition(0f, 0f, 0f);
         position = new float[]{0f, 0f, 0f};
 
         rotation = new float[3];
@@ -77,14 +80,15 @@ public class Player {
 
         // if we hit the ground then reset position to be above and stop flying
         if (isFlying == 1 && position[1] < 2) {
-            System.out.println("Y: "+position[1]);
             isFlying=0;
             this.move(new Vector3f(0.0f,2f-position[1],0), rotationMatrix);
         }
 
         velocity[1] += GRAVITY.y * diffTimeMillis/1000f * isFlying;
 
-        System.out.print(velocity[1]);
+        dmgTime += diffTimeMillis;
+        if (dmgTime > 2500f) { health += .05f;}
+
 
         if (isFlying == 1) {
             this.move(new Vector3f(0,velocity[1]*diffTimeMillis,0), rotationMatrix);

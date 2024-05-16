@@ -40,9 +40,31 @@ public class Main implements IGameLogic, IGuiInstance {
 
     @Override
     public void drawGui() {
+
+        ImGui.styleColorsClassic();
+
+        if (this.player.health<=0) {
+            ImGui.newFrame();
+            ImGui.setNextWindowPos(this.window.getWidth()/2-300, this.window.getHeight()/2-300, ImGuiCond.Always);
+            ImGui.setNextWindowSize(800, 250);
+            ImGui.begin("Game Over", 2+8+4);
+            ImGui.text("You died! Restart the game to play again!");
+            ImGui.end();
+            ImGui.endFrame();
+            ImGui.render();
+
+            return;
+        }
+
+        //ImGui.popStyleColor();
+        //ImGui.showStyleEditor();
+
+        ImGui.pushStyleColor(42, 1-(this.player.health/20), (this.player.health/20), 0.08f, 0.93f);
+
         ImGui.newFrame();
         ImGui.setNextWindowPos(this.window.getWidth()/2-300, this.window.getHeight()/2-300, ImGuiCond.Always);
         ImGui.setNextWindowSize(800, 250);
+
         if (level == -1) {
             glfwSetInputMode(this.window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
             ImGui.begin("Level Selector", 2+8+4);
@@ -55,9 +77,12 @@ public class Main implements IGameLogic, IGuiInstance {
 
             ImGui.end();
         } else {
-            ImGui.progressBar(this.player.health/20f);
-            glfwSetInputMode(this.window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-
+            ImGui.setNextWindowPos(25, 25, ImGuiCond.Always);
+            ImGui.setNextWindowSize(400, 50);
+            ImGui.begin("Level Selector", 2+8+4+1);
+            ImGui.progressBar(this.player.health/20f, 380f, 30f, "Health");
+            //glfwSetInputMode(this.window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+            ImGui.end();
         }
         //ImGui.showDemoWindow();
         ImGui.endFrame();
@@ -93,7 +118,7 @@ public class Main implements IGameLogic, IGuiInstance {
 
     @Override
     public void input(Window window, Scene scene, long diffTimeMillis, boolean inputConsumed) {
-        if (inputConsumed) {
+        if (inputConsumed || this.level == -1 || this.player.health <= 0) {
             return;
         }
 
@@ -163,6 +188,30 @@ public class Main implements IGameLogic, IGuiInstance {
 
     @Override
     public void update(Window window, Scene scene, long diffTimeMillis) {
+        if (this.level == 1) {
+            System.out.print("Loading level 1");
+            gameWorld.loadLevel1(window, scene);
+            System.out.print("Loaded level 1");
+            this.level = 0;
+        }
+        if (this.level == 2) {
+            gameWorld.loadLevel2(window, scene);
+            this.level = 0;
+        }
+
+        for (Entity e: gameWorld.mobs) {
+            float[] enemyPos = e.getMob().position;
+            //System.out.println((new Vector3f(enemyPos[0], enemyPos[1], enemyPos[2]).sub(new Vector3f(player.position[0], player.position[1], player.position[2]))).length());
+            if ( (new Vector3f(enemyPos[0], enemyPos[1], enemyPos[2]).sub(new Vector3f(player.position[0], player.position[1], player.position[2]))).length() < 3f) {
+                e.getMob().velocity[0] = (player.position[0]-enemyPos[0])/100;
+                e.getMob().velocity[2] = (player.position[2]-enemyPos[2])/100;
+                player.health -= .2f;
+                player.dmgTime = 0f;
+            }
+
+        }
+
+        //this.player.health -= 4f/180;
         gameWorld.update(window, scene, diffTimeMillis);
         player.update(window, scene, diffTimeMillis);
 

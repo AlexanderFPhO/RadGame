@@ -15,7 +15,7 @@ import java.util.List;
 
 import static org.lwjgl.glfw.GLFW.*;
 
-public class Main implements IGameLogic, IGuiInstance {
+public class  Main implements IGameLogic, IGuiInstance {
 
     private static final float MOUSE_SENSITIVITY = 0.1f;
     private static final float MOVEMENT_SPEED = 0.008f;
@@ -71,18 +71,22 @@ public class Main implements IGameLogic, IGuiInstance {
             ImFont defaultFont = ImGui.getFont(); // Get the default font
 
             //title
-            defaultFont.setScale(18f);
-            ImGui.setCursorPos((ImGui.getWindowWidth()/2)-450,100);
+            defaultFont.setScale(3f);
+            //ImGui.setCursorPos((ImGui.getWindowWidth()/2)-450,75);
             ImGui.text("RadRealms: Main Menu");
 
             //instructions
-            defaultFont.setScale(6f);
-            ImGui.setCursorPos((ImGui.getWindowWidth()/2)-350,350);
+            //defaultFont.setScale(1f);
+            //ImGui.setCursorPos((ImGui.getWindowWidth()/2)-375,325);
+            ImGui.text(" ");
             ImGui.text("Welcome to RadRealms!");
-            ImGui.setCursorPos(50,450);
-            ImGui.text("In order to play, kill all the cubes by clicking on them!");
+            //ImGui.setCursorPos(50,450);
+            ImGui.text("1. Control your player by moving your mouse and using WASD.");
+            ImGui.text("2. Click on the slime in order to attack it.");
+            ImGui.text("3. Make sure not to run into them!");
+            ImGui.text("4. In order to beat the round, clear all the slimes.");
 
-            defaultFont.setScale(7f);
+            //defaultFont.setScale(7f);
             if (ImGui.button("Level 1", 800, 200)) {level = 1;};
             ImGui.newLine();
             if (ImGui.button("Level 2", 800, 200)) {level = 2;};

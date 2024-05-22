@@ -62,19 +62,32 @@ public class Main implements IGameLogic, IGuiInstance {
         ImGui.pushStyleColor(42, 1-(this.player.health/20), (this.player.health/20), 0.08f, 0.93f);
 
         ImGui.newFrame();
-        ImGui.setNextWindowPos(this.window.getWidth()/2-300, this.window.getHeight()/2-300, ImGuiCond.Always);
-        ImGui.setNextWindowSize(800, 250);
+        ImGui.setNextWindowPos(0,0, ImGuiCond.Always);
+        ImGui.setNextWindowSize(this.window.getWidth(), this.window.getHeight());
 
         if (level == -1) {
             glfwSetInputMode(this.window.getWindowHandle(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-            ImGui.begin("Level Selector", 2+8+4);
-            ImGui.text("Pick a level!");
-            if (ImGui.button("Level 1", 200, 200)) {level = 1;};
-            ImGui.sameLine();
-            if (ImGui.button("Level 2", 200, 200)) {level = 2;};
-            ImGui.sameLine();
-            if (ImGui.button("Freeroam", 200, 200)) {level = 0;};
+            ImGui.begin("Main Menu", 2+8+4+32+1);
+            ImFont defaultFont = ImGui.getFont(); // Get the default font
 
+            //title
+            defaultFont.setScale(18f);
+            ImGui.setCursorPos((ImGui.getWindowWidth()/2)-450,100);
+            ImGui.text("RadRealms: Main Menu");
+
+            //instructions
+            defaultFont.setScale(6f);
+            ImGui.setCursorPos((ImGui.getWindowWidth()/2)-350,350);
+            ImGui.text("Welcome to RadRealms!");
+            ImGui.setCursorPos(50,450);
+            ImGui.text("In order to play, kill all the cubes by clicking on them!");
+
+            defaultFont.setScale(7f);
+            if (ImGui.button("Level 1", 800, 200)) {level = 1;};
+            ImGui.newLine();
+            if (ImGui.button("Level 2", 800, 200)) {level = 2;};
+            ImGui.newLine();
+            if (ImGui.button("Freeplay", 800, 200)) {level = 0;}
             ImGui.end();
         } else {
             ImGui.setNextWindowPos(25, 25, ImGuiCond.Always);
